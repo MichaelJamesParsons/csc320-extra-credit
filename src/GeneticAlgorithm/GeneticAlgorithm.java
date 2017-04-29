@@ -102,11 +102,6 @@ public class GeneticAlgorithm {
         ExpressionMutator mutator = new ExpressionMutator(expBuilder);
 
         while(numMutations < (expressions.size() * .05)) {
-
-            if(expressions.size() - 1 < 1) {
-                int a = 0;
-            }
-
             index = rand.nextInt(expressions.size() - 1);
             mutator.mutate(expressions.get(index));
             numMutations++;

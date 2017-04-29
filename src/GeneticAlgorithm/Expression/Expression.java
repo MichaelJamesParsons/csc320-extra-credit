@@ -9,7 +9,7 @@ public class Expression {
     private ExpressionEvaluator evaluator;
 
     public Expression() {
-        this.terms = new LinkedList<IExpressionTerm>();
+        this.terms = new LinkedList<>();
         this.evaluator = new ExpressionEvaluator();
     }
 

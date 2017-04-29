@@ -8,10 +8,10 @@ import java.util.Random;
 
 public class OperandCrossover {
 
-    public Expression lastExp1;
-    public Expression lastExp2;
+    Expression lastExp1;
+    Expression lastExp2;
 
-    public void crossoverByReference(Expression exp1, Expression exp2) throws InvalidExpressionInsertException {
+    void crossoverByReference(Expression exp1, Expression exp2) throws InvalidExpressionInsertException {
         int crossOverRange = calculateCrossoverRange(exp1, exp2);
         Random rand = new Random();
         int index = rand.nextInt(crossOverRange);

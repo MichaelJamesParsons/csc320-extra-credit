@@ -70,7 +70,7 @@ class GeneticAlgorithmTests {
             ExpressionEvaluator evaluator = new ExpressionEvaluator();
 
             for (Map.Entry<Float, Float> entry : dataSet.entrySet()) {
-                Assertions.assertEquals((Float)entry.getValue(), (Float)evaluator.evaluate(exp, entry.getKey()));
+                Assertions.assertEquals(entry.getValue(), (Float)evaluator.evaluate(exp, entry.getKey()));
             }
         } catch (InvalidExpressionOperationException | InvalidExpressionInsertException e) {
             Assertions.assertTrue(false, "Invalid operand or operation detected.");
