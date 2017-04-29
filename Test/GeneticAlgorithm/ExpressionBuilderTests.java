@@ -15,7 +15,7 @@ class ExpressionBuilderTests {
     @BeforeEach
     void init() {
         GeneticAlgorithm genAlg = new GeneticAlgorithm();
-        builder = new ExpressionBuilder(genAlg.operators, genAlg.operands);
+        builder = new ExpressionBuilder(genAlg.getOperators(), genAlg.getOperands());
     }
 
     @Test

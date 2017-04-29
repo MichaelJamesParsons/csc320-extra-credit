@@ -1,5 +1,6 @@
 package GeneticAlgorithm.Expression;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.ListIterator;
 
@@ -18,6 +19,7 @@ public class Expression {
 
     public void addTerm(IExpressionTerm term) throws InvalidExpressionInsertException {
         if(terms.size() > 0 && terms.getLast().getClass().equals(term.getClass())) {
+            int a = 0;
             throw new InvalidExpressionInsertException();
         }
 
@@ -42,6 +44,28 @@ public class Expression {
 
     public float evaluate(float val) throws InvalidExpressionOperationException {
         return this.evaluator.evaluate(this, val);
+    }
+
+    public Expression deepClone() throws InvalidExpressionInsertException {
+        Expression exp = new Expression();
+        Iterator iterator = this.getIterator();
+
+        while(iterator.hasNext()) {
+            IExpressionTerm t = (IExpressionTerm)iterator.next();
+            IExpressionTerm clone;
+
+            if(t instanceof Operator) {
+                clone = new Operator((Character)t.getValue());
+            } else if(t instanceof VariableOperand) {
+                clone = new VariableOperand((Character)t.getValue());
+            } else {
+                clone = new Operand((Float)t.getValue());
+            }
+
+            exp.addTerm(clone);
+        }
+
+        return exp;
     }
 
     public String toString() {
