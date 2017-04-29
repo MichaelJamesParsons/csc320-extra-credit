@@ -16,12 +16,28 @@ public class Expression {
         return terms.listIterator();
     }
 
-    public boolean addTerm(IExpressionTerm term) throws InvalidExpressionInsertException {
+    public void addTerm(IExpressionTerm term) throws InvalidExpressionInsertException {
         if(terms.size() > 0 && terms.getLast().getClass().equals(term.getClass())) {
             throw new InvalidExpressionInsertException();
         }
 
-        return terms.add(term);
+        terms.add(term);
+    }
+
+    public IExpressionTerm get(int index) {
+        return terms.get(index);
+    }
+
+    public IExpressionTerm set(int index, IExpressionTerm term) {
+        return terms.set(index, term);
+    }
+
+    public void remove(int index) {
+        terms.remove(index);
+    }
+
+    public int getSize() {
+        return terms.size();
     }
 
     public float evaluate(float val) throws InvalidExpressionOperationException {

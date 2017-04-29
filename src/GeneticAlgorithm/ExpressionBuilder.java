@@ -63,12 +63,12 @@ public class ExpressionBuilder {
         return (offset > 0) ? 100 / offset : 100;
     }
 
-    private char getRandomOperator() {
+    public char getRandomOperator() {
         int index = this.random.nextInt(this.operators.length);
         return this.operators[index];
     }
 
-    private float getRandomOperand() {
+    public float getRandomOperand() {
         int index = this.random.nextInt(this.operators.length);
         return this.operands[index];
     }
