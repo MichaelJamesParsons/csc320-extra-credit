@@ -2,27 +2,18 @@ package IntegerKnapsack;
 
 public class KnapsackItem {
 
-    private int value;
     private int weight;
+    private int value;
 
-    public KnapsackItem(int v, int w) {
-        this.value = v;
+    KnapsackItem(int w, int v) {
         this.weight = w;
+        this.value = v;
     }
 
-    public int getValue() {
-        return value;
-    }
-
-    public void setValue(int value) {
-        this.value = value;
-    }
-
-    public int getWeight() {
+    int getWeight() {
         return weight;
     }
-
-    public void setWeight(int weight) {
-        this.weight = weight;
+    public int getValue() {
+        return value;
     }
 }
