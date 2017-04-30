@@ -2,9 +2,9 @@ package BoxStacking;
 
 import java.util.Arrays;
 
-public class BoxStacking {
+class BoxStacking {
 
-    public void stackBoxes(Box[] boxes) {
+    int stackBoxes(Box[] boxes) {
         Box[] boxVariations = buildBoxVariations(boxes);
         Arrays.sort(boxVariations);
 
@@ -19,35 +19,36 @@ public class BoxStacking {
             result[x] = x;
         }
 
-        outerLoop:
         for(int i = 1; i < maxHeights.length; i++) {
             for(int j = 0; j < maxHeights.length; j++) {
-                if(boxVariations[i].getBaseArea() >= boxVariations[j].getBaseArea()) {
-                    continue outerLoop;
+                if(boxVariations[i].getLength() >= boxVariations[j].getLength() ||
+                        boxVariations[i].getWidth() >= boxVariations[j].getWidth()) {
+                    break;
                 }
 
-                maxHeights[i] = maxHeights[i] + maxHeights[j];
+                maxHeights[i] = boxVariations[i].getHeight() + maxHeights[j];
                 result[i] = j;
-                j++;
             }
         }
-        /*int tallestSequenceIndex = 0;
-        Box[] tallestSequence = new Box[boxes.length];
 
-        for(int x = 0; x < boxes.length; x++) {
-            int tmpIndex = 0;
-            Box[] tmp = new Box[boxes.length];
-        }*/
-
+        return maxHeights[maxHeights.length - 1];
     }
 
     private Box[] buildBoxVariations(Box[] baseBoxes) {
         Box[] boxVariations = new Box[baseBoxes.length*3];
 
-        for(int x = 0; x < baseBoxes.length; x += 3) {
+        for(int x = 0; x < baseBoxes.length; x++) {
             boxVariations[x] = baseBoxes[x];
-            boxVariations[x+1] = new Box( baseBoxes[x].getHeight(), baseBoxes[x].getWidth(), baseBoxes[x].getLength());
-            boxVariations[x+2] = new Box(baseBoxes[x].getHeight(), baseBoxes[x].getLength(), baseBoxes[x].getWidth());
+            boxVariations[x + baseBoxes.length] = new Box(
+                    baseBoxes[x].getWidth(),
+                    Math.min(baseBoxes[x].getHeight(), baseBoxes[x].getLength()),
+                    Math.max(baseBoxes[x].getHeight(), baseBoxes[x].getLength())
+            );
+            boxVariations[x + baseBoxes.length*2] = new Box(
+                baseBoxes[x].getLength(),
+                Math.min(baseBoxes[x].getHeight(), baseBoxes[x].getWidth()),
+                Math.max(baseBoxes[x].getHeight(), baseBoxes[x].getWidth())
+            );
         }
 
         return boxVariations;
