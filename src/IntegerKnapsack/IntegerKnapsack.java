@@ -2,9 +2,9 @@ package IntegerKnapsack;
 
 import java.util.ArrayList;
 
-class IntegerKnapsack {
+public class IntegerKnapsack {
 
-    ArrayList<KnapsackItem> fill(KnapsackItem[] items, int capacity) {
+    public ArrayList<KnapsackItem> fill(KnapsackItem[] items, int capacity) {
         int[][] matrix = new int[items.length][capacity + 1];
 
         for(int i = 0; i < items.length; i++) {

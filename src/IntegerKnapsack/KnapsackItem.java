@@ -5,7 +5,7 @@ public class KnapsackItem {
     private int weight;
     private int value;
 
-    KnapsackItem(int w, int v) {
+    public KnapsackItem(int w, int v) {
         this.weight = w;
         this.value = v;
     }

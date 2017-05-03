@@ -64,6 +64,19 @@ class GeneticAlgorithmTests {
         testEvaluation(dataSet, geneticAlgorithm);
     }
 
+    @Test
+    void simplePower() throws InvalidExpressionOperationException, InvalidExpressionInsertException, AttemptLimitReachedException {
+        float[] operands = {1,2,3,4,5,6,7,8,9};
+        GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm(operands);
+        LinkedHashMap<Float, Float> dataSet = new LinkedHashMap<>();
+        dataSet.put(1f,1f);
+        dataSet.put(2f, 16f);
+        dataSet.put(3f, 81f);
+        dataSet.put(4f, 256f);
+
+        testEvaluation(dataSet, geneticAlgorithm);
+    }
+
     private void testEvaluation(LinkedHashMap<Float, Float> dataSet, GeneticAlgorithm geneticAlgorithm) {
         try {
             Expression exp = geneticAlgorithm.getExpression(dataSet);
