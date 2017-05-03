@@ -1,5 +1,9 @@
 package BalancedPartition;
 
+import IntegerKnapsack.*;
+
+import java.util.ArrayList;
+
 public class BalancedPartition {
 
     /**
@@ -11,25 +15,33 @@ public class BalancedPartition {
      *
      * @param numbers - An unordered list of integers.
      */
-    public int calculate(int[] numbers) {
-        int[][] matrix = new int[numbers.length][numbers.length];
+    public PartitionResult calculate(int[] numbers) {
         int sum = 0;
-        int s;
 
-        for(int x = 0; x < numbers.length; x++) {
-            sum += numbers[x];
+        for (int number : numbers) {
+            sum += number;
         }
 
-        s = sum / 2;
+        KnapsackItem[] items = new KnapsackItem[numbers.length];
 
-        for(int i = 1; i < matrix.length; i++) {
-            matrix[i][0] = 1;
-            for(int j = 1; j < matrix.length; j++) {
-                matrix[i][j] = (matrix[i-1][j] == 1 || matrix[i-1][j - numbers[i]] == 1) ? 1 : 0;
-            }
+        for(int i = 0; i < numbers.length; i++) {
+            items[i] = new KnapsackItem(numbers[i], numbers[i]);
         }
 
-        return matrix[numbers.length - 1][numbers.length - 1];
+        IntegerKnapsack knapsack = new IntegerKnapsack();
+        ArrayList<KnapsackItem> result = knapsack.fill(items, sum/2);
+
+        int total = getTotalFromKnapsackResult(result);
+        return new PartitionResult(total, sum - total);
+    }
+
+    private int getTotalFromKnapsackResult(ArrayList<KnapsackItem> items) {
+        int total = 0;
+        for (KnapsackItem i : items) {
+            total += i.getValue();
+        }
+
+        return total;
     }
 
 }
