@@ -17,7 +17,7 @@ public class OptimalGameStrategy {
             for(int i = 0; i < coins.length-d; i++) {
                 int j = i+d;
 
-                int pick3 = Math.min(matrix[i+1][j-1], matrix[i+2][j]);
+                //int pick3 = Math.min(matrix[i+1][j-1], matrix[i+2][j]);
 
                 int pick1 = matrix[i+1][j].getFirstMove() + matrix[i][j-1].getSecondMove();
                 int pick2 = matrix[i][j-1].getFirstMove() + matrix[i+1][j].getSecondMove();

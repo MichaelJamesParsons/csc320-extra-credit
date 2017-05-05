@@ -6,7 +6,6 @@ import GeneticAlgorithm.Expression.InvalidExpressionInsertException;
 import GeneticAlgorithm.Expression.InvalidExpressionOperationException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -77,13 +76,58 @@ class GeneticAlgorithmTests {
         testEvaluation(dataSet, geneticAlgorithm);
     }
 
+    /**
+     * Example from book (page 461)
+     *
+     * @throws InvalidExpressionOperationException
+     * @throws InvalidExpressionInsertException
+     * @throws AttemptLimitReachedException
+     */
+    @Test
+    void quadratic() throws InvalidExpressionOperationException, InvalidExpressionInsertException, AttemptLimitReachedException {
+        GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm();
+        LinkedHashMap<Float, Float> dataSet = new LinkedHashMap<>();
+        dataSet.put(0f,0f);
+        dataSet.put(.1f, .005f);
+        dataSet.put(.2f, .020f);
+        dataSet.put(.3f, .045f);
+        dataSet.put(.4f, .080f);
+        dataSet.put(.5f, .125f);
+        dataSet.put(.6f, .180f);
+        dataSet.put(.7f, .245f);
+        dataSet.put(.8f, .320f);
+        dataSet.put(.9f, .405f);
+
+        testEvaluation(dataSet, geneticAlgorithm);
+    }
+
+    /**
+     * Test the generated expression against the given data set.
+     *
+     * Warning:
+     *
+     * @param dataSet           - Inputs and outputs of unknown function.
+     * @param geneticAlgorithm  - A genetic algorithm containing operator and operand sets which are optimized to solve
+     *                            for the given inputs and outputs.
+     */
     private void testEvaluation(LinkedHashMap<Float, Float> dataSet, GeneticAlgorithm geneticAlgorithm) {
         try {
             Expression exp = geneticAlgorithm.getExpression(dataSet);
             ExpressionEvaluator evaluator = new ExpressionEvaluator();
 
             for (Map.Entry<Float, Float> entry : dataSet.entrySet()) {
-                Assertions.assertEquals(entry.getValue(), (Float)evaluator.evaluate(exp, entry.getKey()));
+                float evaluation = evaluator.evaluate(exp, entry.getKey());
+
+                try {
+                    Assertions.assertEquals(entry.getValue(), evaluation, geneticAlgorithm.getEpsilon());
+                } catch (org.opentest4j.AssertionFailedError e) {
+                    //Prevent float rounding errors from failing tests. Compare diff of expression and expected result
+                    //with the algorithm's epsilon value to determine if the value is acceptable.
+                    float diff = entry.getValue() - evaluation;
+                    if(diff >= geneticAlgorithm.getEpsilon()) {
+                        throw e;
+                    }
+                }
             }
         } catch (InvalidExpressionOperationException | InvalidExpressionInsertException e) {
             Assertions.assertTrue(false, "Invalid operand or operation detected.");
