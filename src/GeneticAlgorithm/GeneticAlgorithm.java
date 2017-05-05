@@ -10,6 +10,13 @@ import java.util.Random;
 /**
  * GeneticAlgorithm
  *
+ * Implementation of a genetic algorithm which determines the function which generated a given set
+ * of outputs. The design of the program is strictly object oriented, which allows for optimizations
+ * that reduce iteration, memory usage, and excess processing behind the scenes in the JVM.
+ *
+ * Use the provided unit tests to verify the algorithm, or include this source code as a module
+ * in your project.
+ *
  * @author Michael-James Parsons
  */
 public class GeneticAlgorithm {
@@ -22,7 +29,7 @@ public class GeneticAlgorithm {
     private char[] operators = new char[]{'+','-','*','/','^'};
 
     //Threshold of accuracy that must be met for an expression to be deemed acceptable.
-    private float epsilon = .0000001f;
+    private float epsilon = .000001f;
 
     //Generates populations of expressions.
     private ExpressionBuilder expBuilder;
@@ -64,15 +71,14 @@ public class GeneticAlgorithm {
             while(true) {
                 int generations = 0;
                 ArrayList<Expression> population = expBuilder.generatePopulations(100);
+                System.out.println("Attempt " + attempts);
 
                 while(generations < 30) {
-                    System.out.println("Attempt " + attempts + " : Generation " + generations);
-
                     population = mutate(crossOver(compete(population, dataSet)));
                     generations++;
                 }
 
-                if(attempts > 1000) {
+                if(attempts > 5000) {
                     break;
                 }
 

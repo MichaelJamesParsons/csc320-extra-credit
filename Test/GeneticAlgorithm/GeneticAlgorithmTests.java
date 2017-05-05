@@ -102,9 +102,61 @@ class GeneticAlgorithmTests {
     }
 
     /**
+     * Tests for y= f(x) = x^2
+     *
+     * @throws InvalidExpressionOperationException
+     * @throws InvalidExpressionInsertException
+     * @throws AttemptLimitReachedException
+     */
+    @Test
+    void homeworkSet1() throws InvalidExpressionOperationException, InvalidExpressionInsertException, AttemptLimitReachedException {
+        float[] operands = new float[]{0, 1,2,3,4,5,6,7,8,9};
+
+        GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm(operands);
+        LinkedHashMap<Float, Float> dataSet = new LinkedHashMap<>();
+        dataSet.put(1f, 1f);
+        dataSet.put(2f, 4f);
+        dataSet.put(3f, 9f);
+        dataSet.put(4f, 16f);
+        dataSet.put(5f, 25f);
+        dataSet.put(6f, 36f);
+        dataSet.put(7f, 49f);
+        dataSet.put(8f, 64f);
+        dataSet.put(9f, 81f);
+
+        testEvaluation(dataSet, geneticAlgorithm);
+    }
+
+    /**
+     * Tests for y= f(x) = (x^2/12)+1
+     *
+     * @throws InvalidExpressionOperationException
+     * @throws InvalidExpressionInsertException
+     * @throws AttemptLimitReachedException
+     */
+    @Test
+    void homeworkSet2() throws InvalidExpressionOperationException, InvalidExpressionInsertException, AttemptLimitReachedException {
+        float[] operands = new float[]{0, 1,2,3,4,5,6,7,8,9};
+
+        GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm(operands);
+        LinkedHashMap<Float, Float> dataSet = new LinkedHashMap<>();
+        dataSet.put(1f, 13/12f);
+        dataSet.put(2f, 5/3f);
+        dataSet.put(3f, 13/4f);
+        dataSet.put(4f, 19/3f);
+        dataSet.put(5f, 137/12f);
+        dataSet.put(6f, 19f);
+        dataSet.put(7f, 355/12f);
+        dataSet.put(8f, 131/3f);
+        dataSet.put(9f, 247/4f);
+
+        testEvaluation(dataSet, geneticAlgorithm);
+    }
+
+    /**
      * Test the generated expression against the given data set.
      *
-     * Warning:
+     * Warning: Rarely, a
      *
      * @param dataSet           - Inputs and outputs of unknown function.
      * @param geneticAlgorithm  - A genetic algorithm containing operator and operand sets which are optimized to solve
@@ -123,7 +175,7 @@ class GeneticAlgorithmTests {
                 } catch (org.opentest4j.AssertionFailedError e) {
                     //Prevent float rounding errors from failing tests. Compare diff of expression and expected result
                     //with the algorithm's epsilon value to determine if the value is acceptable.
-                    float diff = entry.getValue() - evaluation;
+                    float diff = Math.max(entry.getValue() - evaluation, evaluation - entry.getValue());
                     if(diff >= geneticAlgorithm.getEpsilon()) {
                         throw e;
                     }
