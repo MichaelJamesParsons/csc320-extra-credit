@@ -57,20 +57,4 @@ class ExpressionEvaluatorTests {
 
         Assertions.assertEquals(.5f, evaluator.evaluate(exp, 0));
     }
-
-    @Test
-    void testExponentAndDivision() throws InvalidExpressionInsertException, InvalidExpressionOperationException {
-        Expression exp = new Expression();
-        exp.addTerm(new VariableOperand('x'));
-        exp.addTerm(new Operator('^'));
-        exp.addTerm(new Operand(3));
-        exp.addTerm(new Operator('/'));
-        exp.addTerm(new Operand(12));
-        exp.addTerm(new Operator('+'));
-        exp.addTerm(new Operand(1));
-
-        float expected = 1;
-        Assertions.assertEquals(1.8333333333f, evaluator.evaluate(exp, expected));
-    }
-
 }

@@ -9,14 +9,81 @@ public class TravelingSalesman {
         HashSet<HashSet<Integer>> powerSet = getPowerSet(matrix.length);
 
         HashMap<HashSet<Integer>, Integer> map = new HashMap<>();
-        int[][] M = new int[matrix.length][powerSet.size()];
+        int[][] P = new int[matrix.length][powerSet.size()];
         int[][] D = new int[matrix.length][powerSet.size()];
 
-        for(int i = 0; i < powerSet.size(); i++) {
-            //map.put();
+        //Fill empty sets
+        int z = 0;
+        for(HashSet<Integer> subset : powerSet) {
+            if(subset.size() == 1) {
+                int value = subset.iterator().next();
+                D[value][0] = matrix[value][0];
+            }
+
+            map.put(subset, z);
+            z++;
         }
 
+        for(int k = 0; k <= matrix.length - 1; k++) {
+            for(HashSet<Integer> subset : powerSet) {
+                for(int i = 1; i < matrix.length; i++) {
+                    if(subset.contains(i) || subset.size() == 0) {
+                        continue;
+                    }
+
+                    int minVal = Integer.MAX_VALUE;
+                    int min = Integer.MAX_VALUE;
+                    for(Integer j : subset) {
+                        int c = matrix[i][j] + D[j][map.get(subset) - j];
+
+                        if(c < min) {
+                            min = c;
+                            minVal = j;
+                        }
+                    }
+
+                    D[i][map.get(subset)] = min;
+                    P[i][map.get(subset)] = minVal;
+                }
+            }
+        }
+
+        /*int minVal = Integer.MAX_VALUE;
+        int min = Integer.MAX_VALUE;
+        for(int j = 1; j < matrix.length; j++) {
+            int tmpMin = matrix[1][j] + D[j][]
+        }*/
+
+        printDMatrix(map, matrix.length, D);
+
         return null;
+    }
+
+    void printDMatrix(HashMap<HashSet<Integer>, Integer> map, int wLen, int[][] D) {
+        for(HashSet<Integer> entry : map.keySet()) {
+            System.out.print("   {");
+            int z = 0;
+            for(Integer key : entry) {
+                System.out.print(key);
+
+                if(z != entry.size() - 1) {
+                    System.out.print(",");
+                }
+
+                z++;
+            }
+            System.out.print("} ");
+        }
+
+        System.out.println();
+
+        for(int i = 1; i < wLen; i++) {
+            for(HashSet<Integer> j : map.keySet()) {
+                String val = (D[i][map.get(j)] >= 99) ? "inf" : D[i][map.get(j)] + "";
+                System.out.print("|\t" + val + "\t");
+            }
+            System.out.println();
+        }
     }
 
     /**
@@ -36,16 +103,15 @@ public class TravelingSalesman {
      */
     HashSet<HashSet<Integer>> getPowerSet(int size) {
         HashSet<HashSet<Integer>> powerSet = new HashSet<>();
-
         int numSubSets = 1 << size;
 
-        for(int i = 0; i < numSubSets; i++) {
+        for(int i = 1; i < numSubSets; i++) {
             HashSet<Integer> tmp = new HashSet<>();
             int mask = 1;
 
-            for(int j = 0; j < size; j++) {
-                if((mask&i) != 0) {
-                    tmp.add(i);
+            for(int j = 1; j < size; j++) {
+                if((mask & i) != 0) {
+                    tmp.add(j);
                 }
 
                 mask = mask << 1;

@@ -126,7 +126,8 @@ public class GeneticAlgorithm {
      * @throws ExpressionFoundException            - Thrown when a solution is found. The matched solution may be
      *                                               accessed from the exception as a property.
      */
-    private Expression determineWinner(Expression exp1, Expression exp2, LinkedHashMap<Float, Float> dataSet) throws InvalidExpressionOperationException, ExpressionFoundException {
+    private Expression determineWinner(Expression exp1, Expression exp2, LinkedHashMap<Float, Float> dataSet)
+            throws InvalidExpressionOperationException, ExpressionFoundException {
         float exp1Sum = 0;
         float exp2Sum = 0;
 
