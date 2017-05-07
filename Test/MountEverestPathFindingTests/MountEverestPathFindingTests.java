@@ -1,20 +1,21 @@
 package MountEverestPathFindingTests;
 
-import MountEverestPathFinding.PathFinder;
+import MountEverestPathFinding.Everest;
+import MountEverestPathFinding.WayPoint;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class MountEverestPathFindingTests {
-    private PathFinder pathFinder;
+class MountEverestPathFindingTests {
+    private Everest everest;
 
     @BeforeEach
     void init() {
-        pathFinder = new PathFinder();
+        everest = new Everest();
     }
 
     @Test
     void testEverestMap() {
-        int[][] matrix = new int[][];
+        int[][] matrix = new int[14][14];
 
         matrix[0][0] = 19234;
         matrix[0][1] = 20191;
@@ -227,6 +228,7 @@ public class MountEverestPathFindingTests {
         matrix[12][12] = 25901;
         matrix[12][13] = 24922;
 
-        pathFinder.findPath(matrix);
+        WayPoint[][] map = everest.convertMatrixToMap(matrix);
+        everest.findPathFromRandomPointToFinish(map, map[9][6]);
     }
 }

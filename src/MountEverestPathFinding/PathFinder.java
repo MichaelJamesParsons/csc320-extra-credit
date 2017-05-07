@@ -1,50 +1,66 @@
 package MountEverestPathFinding;
 
-import java.util.Random;
+import java.util.*;
 
 public class PathFinder {
 
-    public WayPoint[] findPath(int[][] weightedMap) {
-        WayPoint[][] map = convertMatrixToMap(weightedMap);
+    public WayPoint[] findPath(WayPoint[][] map, WayPoint start, WayPoint end) {
+        LinkedHashSet<WayPoint> open = new LinkedHashSet();
+        HashSet<WayPoint> closed = new HashSet<>();
 
+        //Add initial point to open set.
+        open.add(start);
+
+        //While there are positions to search.
+        while(open.size() > 0) {
+
+        }
 
         return null;
     }
 
     /**
-     * Finds a random waypoint in a given map.
-     *
-     * @param map       - A matrix of way points.
-     * @param exclude   - A specific way point to exclude. The calculated way point must not exist at the same
-     *                    coordinates as this point.
-     * @return          - A random way point.
+     * 
+     * @param start
+     * @param open
+     * @param closed
+     * @param map
      */
-    private WayPoint getRandomPosition(WayPoint[][] map, WayPoint exclude) {
-        WayPoint wayPoint = null;
-        Random random = new Random();
-
-        while(wayPoint == null || wayPoint.getX() == exclude.getX() && wayPoint.getY() == exclude.getY()) {
-            wayPoint = map[random.nextInt(map.length)][map.length];
+    private void collectNeighboringWayPoints(WayPoint start, Set<WayPoint> open, Set<WayPoint> closed, WayPoint[][] map) {
+        //Add top way point
+        if(start.getY() + 1 < map.length && !open.contains(map[start.getX()][start.getY() + 1])) {
+            open.add(map[start.getX()][start.getY() + 1]);
         }
 
-        return wayPoint;
+        //Add right way point
+        if(start.getX() + 1 < map.length && !open.contains(map[start.getX() + 1][start.getY()])) {
+            open.add(map[start.getX() + 1][start.getY()]);
+        }
+
+        //Add bottom way point
+        if(start.getY() - 1 < map.length && !open.contains(map[start.getX()][start.getY() - 1])) {
+            open.add(map[start.getX()][start.getY() - 1]);
+        }
+
+        //Add right way point
+        if(start.getX() - 1 < map.length && !open.contains(map[start.getX() - 1][start.getY()])) {
+            open.add(map[start.getX() - 1][start.getY()]);
+        }
     }
 
+
+
     /**
-     * Converts a map of weights to a matrix of WayPoints.
+     * Calculates euclidean heuristic to determine the F cost of two points.
      *
-     * @param map   - A matrix of weights.
-     * @return      - A matrix of way points.
+     * @param start - A starting way point.
+     * @param end   - The desired destination way point.
+     * @return The euclidean distance between the points.
      */
-    public WayPoint[][] convertMatrixToMap(int[][] map) {
-        WayPoint[][] wayPointMap = new WayPoint[map.length][map.length];
+    private double euclideanHeuristic(WayPoint start, WayPoint end) {
+        double dx = end.getX() - start.getX();
+        double dy = end.getY() - start.getY();
 
-        for(int y = 0; y < map.length; y++) {
-            for(int x = 0; x < map.length; x++) {
-                wayPointMap[y][x] = new WayPoint(map[y][x], x, y);
-            }
-        }
-
-        return wayPointMap;
+        return Math.sqrt(Math.pow(dx,2) + Math.pow(dy, 2));
     }
 }
