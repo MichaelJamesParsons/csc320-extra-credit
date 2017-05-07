@@ -1,7 +1,5 @@
 package TravelingSalesman;
-
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.*;
 
 public class TravelingSalesman {
 
@@ -29,6 +27,10 @@ public class TravelingSalesman {
                 for(int i = 1; i < matrix.length; i++) {
                     if(subset.contains(i) || subset.size() == 0) {
                         continue;
+                    }
+
+                    if(subset.size() == 1 && subset.contains(3)) {
+                        int breakt = 1;
                     }
 
                     int minVal = Integer.MAX_VALUE;
@@ -102,11 +104,11 @@ public class TravelingSalesman {
      *  {1,2,3}
      */
     HashSet<HashSet<Integer>> getPowerSet(int size) {
-        HashSet<HashSet<Integer>> powerSet = new HashSet<>();
+        ArrayList<ArrayList<Integer>> powerSet = new ArrayList<>();
         int numSubSets = 1 << size;
 
         for(int i = 1; i < numSubSets; i++) {
-            HashSet<Integer> tmp = new HashSet<>();
+            ArrayList<Integer> tmp = new ArrayList<>();
             int mask = 1;
 
             for(int j = 1; j < size; j++) {
@@ -119,7 +121,13 @@ public class TravelingSalesman {
 
             powerSet.add(tmp);
         }
+/*
+        Collections.sort(powerSet, new Comparator<ArrayList>(){
+            public int compare(ArrayList a1, ArrayList a2) {
+                return a2.size() - a1.size(); // assumes you want biggest to smallest
+            }
+        });*/
 
-        return powerSet;
+        return null;
     }
 }
