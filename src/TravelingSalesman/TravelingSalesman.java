@@ -29,14 +29,15 @@ public class TravelingSalesman {
                         continue;
                     }
 
-                    if(subset.size() == 1 && subset.contains(3)) {
+                    if(subset.size() == 2 && subset.contains(2)) {
                         int breakt = 1;
                     }
 
                     int minVal = Integer.MAX_VALUE;
                     int min = Integer.MAX_VALUE;
                     for(Integer j : subset) {
-                        int c = matrix[i][j] + D[j][map.get(subset) - j];
+                        int d = map.get(subset) - j - ((subset.size() > 1) ? 1 : 0);
+                        int c = matrix[i][j] + D[j][d];
 
                         if(c < min) {
                             min = c;
@@ -57,6 +58,8 @@ public class TravelingSalesman {
         }*/
 
         printDMatrix(map, matrix.length, D);
+        System.out.println("\n");
+        printDMatrix(map, matrix.length, P);
 
         return null;
     }
@@ -104,11 +107,11 @@ public class TravelingSalesman {
      *  {1,2,3}
      */
     HashSet<HashSet<Integer>> getPowerSet(int size) {
-        ArrayList<ArrayList<Integer>> powerSet = new ArrayList<>();
+        HashSet<HashSet<Integer>> powerSet = new HashSet<>();
         int numSubSets = 1 << size;
 
         for(int i = 1; i < numSubSets; i++) {
-            ArrayList<Integer> tmp = new ArrayList<>();
+            HashSet<Integer> tmp = new HashSet<>();
             int mask = 1;
 
             for(int j = 1; j < size; j++) {
@@ -121,13 +124,45 @@ public class TravelingSalesman {
 
             powerSet.add(tmp);
         }
-/*
-        Collections.sort(powerSet, new Comparator<ArrayList>(){
-            public int compare(ArrayList a1, ArrayList a2) {
-                return a2.size() - a1.size(); // assumes you want biggest to smallest
-            }
-        });*/
 
-        return null;
+        ArrayList<HashSet<Integer>> tmp = new ArrayList<>();
+        tmp.addAll(powerSet);
+        tmp.sort((o1, o2) -> o1.size() > o2.size() ? 1 : -1);
+
+        powerSet = new HashSet<>();
+        powerSet.addAll(tmp);
+
+
+        return powerSet;
     }
+
+
+
+
+
+
+
+
+
+    /*HashSet<HashSet<Integer>> getPowerSet(int size) {
+        HashSet<HashSet<Integer>> powerSet = new HashSet<>();
+        int numSubSets = 1 << size;
+
+        for(int i = 1; i < numSubSets; i++) {
+            HashSet<Integer> tmp = new HashSet<>();
+            int mask = 1;
+
+            for(int j = 1; j < size; j++) {
+                if((mask & i) != 0) {
+                    tmp.add(j);
+                }
+
+                mask = mask << 1;
+            }
+
+            powerSet.add(tmp);
+        }
+
+        return powerSet;
+    }*/
 }

@@ -2,17 +2,25 @@ package MountEverestPathFinding;
 
 public class WayPoint {
     private int weight;
-    private int gCost;
+    private double cost;
     private int x;
     private int y;
     private WayPoint parent;
 
     public WayPoint(int weight, int x, int y) {
         this.weight = weight;
-        this.gCost = 0;
+        this.cost = 0;
         this.parent = null;
         this.x = x;
         this.y = y;
+    }
+
+    public double getGCost() {
+        if(parent != null) {
+            return parent.getGCost() + (parent.getWeight() - weight);
+        }
+
+        return 0;
     }
 
     public int getWeight() {
@@ -23,12 +31,12 @@ public class WayPoint {
         this.weight = weight;
     }
 
-    public int getgCost() {
-        return gCost;
+    public double getCost() {
+        return cost;
     }
 
-    public void setgCost(int gCost) {
-        this.gCost = gCost;
+    public void setCost(double cost) {
+        this.cost = cost;
     }
 
     public WayPoint getParent() {

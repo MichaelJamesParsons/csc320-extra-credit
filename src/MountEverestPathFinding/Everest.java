@@ -32,7 +32,7 @@ public class Everest {
         Random random = new Random();
 
         while(wayPoint == null || wayPoint.getX() == exclude.getX() && wayPoint.getY() == exclude.getY()) {
-            wayPoint = map[random.nextInt(map.length)][map.length];
+            wayPoint = map[random.nextInt(map.length-1)][map.length-1];
         }
 
         return wayPoint;
