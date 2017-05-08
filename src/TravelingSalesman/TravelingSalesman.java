@@ -4,6 +4,7 @@ import java.util.*;
 public class TravelingSalesman {
 
     public int[] calculateRoute(int[][] matrix) {
+        //Calculate power set
         HashSet<HashSet<Integer>> powerSet = getPowerSet(matrix.length);
 
         HashMap<HashSet<Integer>, Integer> map = new HashMap<>();
@@ -22,15 +23,13 @@ public class TravelingSalesman {
             z++;
         }
 
+        int pSetCount = 0;
+        HashSet<Integer> lastSet = null;
         for(int k = 0; k <= matrix.length - 1; k++) {
             for(HashSet<Integer> subset : powerSet) {
                 for(int i = 1; i < matrix.length; i++) {
                     if(subset.contains(i) || subset.size() == 0) {
                         continue;
-                    }
-
-                    if(subset.size() == 2 && subset.contains(2)) {
-                        int breakt = 1;
                     }
 
                     int minVal = Integer.MAX_VALUE;
@@ -48,20 +47,59 @@ public class TravelingSalesman {
                     D[i][map.get(subset)] = min;
                     P[i][map.get(subset)] = minVal;
                 }
+
+                pSetCount++;
+
+                if(pSetCount == powerSet.size()) {
+                    lastSet = subset;
+                }
             }
         }
 
-        /*int minVal = Integer.MAX_VALUE;
-        int min = Integer.MAX_VALUE;
-        for(int j = 1; j < matrix.length; j++) {
-            int tmpMin = matrix[1][j] + D[j][]
-        }*/
-
+        //Print out D and P matrix
         printDMatrix(map, matrix.length, D);
         System.out.println("\n");
         printDMatrix(map, matrix.length, P);
 
+
+        //Find min D and P values
+        System.out.print("Finding min of: ");
+
+        int minVal = Integer.MAX_VALUE;
+        int min = Integer.MAX_VALUE;
+        assert lastSet != null;
+        for(Integer s : lastSet) {
+            int mappedPos = map.get(findSubSetInPowerSet(powerSet, lastSet, s));
+            int tmpMin = matrix[1][s] + D[1][mappedPos];
+            int tmpVal = P[1][mappedPos];
+
+            System.out.print(tmpMin + ",");
+
+            if(min > tmpMin) {
+                min = tmpMin;
+                minVal = tmpVal;
+            }
+        }
+
+        System.out.println("\nMin is " + min);
+        System.out.println("P = " + minVal);
+
         return null;
+    }
+
+    HashSet<Integer> findSubSetInPowerSet(HashSet<HashSet<Integer>> powerset, HashSet<Integer> currSet, Integer exclude) {
+        HashSet<Integer> clone = (HashSet<Integer>) currSet.clone();
+        clone.remove(exclude);
+        HashSet<Integer> subset = null;
+
+        for(HashSet<Integer> s : powerset) {
+            if(s.containsAll(clone)) {
+                subset = s;
+                break;
+            }
+        }
+
+        return subset;
     }
 
     void printDMatrix(HashMap<HashSet<Integer>, Integer> map, int wLen, int[][] D) {
@@ -132,37 +170,7 @@ public class TravelingSalesman {
         powerSet = new HashSet<>();
         powerSet.addAll(tmp);
 
-
         return powerSet;
     }
-
-
-
-
-
-
-
-
-
-    /*HashSet<HashSet<Integer>> getPowerSet(int size) {
-        HashSet<HashSet<Integer>> powerSet = new HashSet<>();
-        int numSubSets = 1 << size;
-
-        for(int i = 1; i < numSubSets; i++) {
-            HashSet<Integer> tmp = new HashSet<>();
-            int mask = 1;
-
-            for(int j = 1; j < size; j++) {
-                if((mask & i) != 0) {
-                    tmp.add(j);
-                }
-
-                mask = mask << 1;
-            }
-
-            powerSet.add(tmp);
-        }
-
-        return powerSet;
-    }*/
+    
 }
