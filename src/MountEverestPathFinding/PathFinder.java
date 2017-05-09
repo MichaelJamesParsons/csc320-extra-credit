@@ -1,8 +1,12 @@
 package MountEverestPathFinding;
 
-import java.lang.reflect.Array;
 import java.util.*;
 
+/**
+ * NOTICE: Due to time constraints, I was unable to complete this assignment. The partial algorithm is a
+ *         variation of the A* algorithm, tweaked to calculate cost using the distance of way points instead
+ *         of a constant as used in the traditional implementation.
+ */
 public class PathFinder {
 
     public WayPoint[] findPath(WayPoint[][] map, WayPoint start, WayPoint dest) {
@@ -37,17 +41,9 @@ public class PathFinder {
 
                 if(neighbor.getCost() < wp.getCost()) {
                     neighbor.setParent(wp);
-                    neighbor.setCost(neighbor.getWeight() );
+                    neighbor.setCost(neighbor.getWeight());
                 }
             }
-
-            /*while(open.iterator().hasNext()) {
-                WayPoint wp = open.iterator().next();
-
-                if(minG == null || wp.getWeight() < minG) {
-                    minG = wp.getWeight();
-                }
-            }*/
         }
 
         return null;

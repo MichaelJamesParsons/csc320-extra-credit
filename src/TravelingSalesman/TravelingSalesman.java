@@ -84,6 +84,9 @@ public class TravelingSalesman {
         System.out.println("\nMin is " + min);
         System.out.println("P = " + minVal);
 
+        System.out.println("NOTICE: This indexes in this implementation begin at 0. If your reference begins at 1, " +
+                "all values in the P matrix will be off by 1.");
+
         return null;
     }
 
@@ -172,5 +175,5 @@ public class TravelingSalesman {
 
         return powerSet;
     }
-    
+
 }

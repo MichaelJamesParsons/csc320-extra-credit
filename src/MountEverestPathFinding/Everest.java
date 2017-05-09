@@ -3,6 +3,11 @@ package MountEverestPathFinding;
 
 import java.util.Random;
 
+/**
+ * NOTICE: Due to time constraints, I was unable to complete this assignment. The partial algorithm is a
+ *         variation of the A* algorithm, tweaked to calculate cost using the distance of way points instead
+ *         of a constant as used in the traditional implementation.
+ */
 public class Everest {
 
     private PathFinder pathFinder;
@@ -16,6 +21,8 @@ public class Everest {
     }
 
     public WayPoint[] findPathFromRandomPointToFinish(WayPoint[][] map, WayPoint finish) {
+
+        // A* implementation
         return pathFinder.findPath(map, getRandomPosition(map, finish), finish);
     }
 

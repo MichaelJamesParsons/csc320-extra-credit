@@ -40,6 +40,12 @@ O(nm)
 O(n<sup>3</sup>)
 
 ###### Recursive Definition
+    Base Case
+        T(i,i) = {
+                    1, if symbol = T
+                    0, if symbol = F
+                 }
+               
     T(i,j) = sum i <= k <= j-1 {
                 T(i,k)*T(k+1,j),
                 [T(i,k)+F(i,k)][T(k+1,j)+F(k+1,j)]-[F(i,k)F(k+1,j)],
