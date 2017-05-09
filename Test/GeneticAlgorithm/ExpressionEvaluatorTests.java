@@ -57,5 +57,4 @@ class ExpressionEvaluatorTests {
 
         Assertions.assertEquals(.5f, evaluator.evaluate(exp, 0));
     }
-
 }
